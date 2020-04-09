@@ -3,7 +3,7 @@
  *     *                Problemas resueltos del libro programming in C.                                                                *
  *     *                Exercise 1-12. Write a program that prints its input one word per line.                                        *
  *     *                                                                                                                               *
- *     *                Haremos esten ejercicios con tres formas posibles, una guardando todo en un vector, luego utilizando puntero   *
+ *     *                Haremos este ejercicio con tres formas posibles, una guardando todo en un vector, luego utilizando puntero     *
  *     *                (esto es para imprimirlo con la funcion printf) luego utilizaremos la funcion putchar como                     *
  *     *                con el metodo que hicimos en la Section 1.5.4 (con macros) y tambien lo haremos con la solucion que nos dejo   *
  *     *                El libro.                                                                                                      *
@@ -18,15 +18,17 @@
 // Aqui iran los prototipos de las funciones
 void MetodoConMacros(void);
 void MetodoDelLibro(void);
-
+void MetodoConPunterosYArray(void);
 
 
 int main(void)
 {
-        printf("Forma 2, el ejercicio que hice con macros\n");
+        printf("Forma 1, el ejercicio que hice con macros\n");
 	MetodoConMacros();
-        printf("Forma 1, funcion Metodologia del libro\n");
+        printf("Forma 2, funcion Metodologia del libro\n");
 	MetodoDelLibro();
+	printf("Forma 3, funcion Metodologia arary puntero\n");
+	MetodoConPunterosYArray();
 	return (0);
 }
 // Utilice estas dos macros, para no ecribir todo estas condiciones en la sentencia del if.
@@ -84,4 +86,48 @@ void MetodoDelLibro(void)      // Se definio una funcion en donde el parametro d
 			putchar(c);              /* Con este otro putchar imprimiremos el resto de las palabras */
 	}
 	return ;                    // Eso es optativo, no retornara nada o retornada basura si la funcion retorna algo diferente a void (creo).
+}
+
+
+// ESTE ULTIMO AUN NO ESTA TERMINADO.
+
+
+/* Intentaremos hacer otro solucion del problema pero esta vez guardandolo todo en un vector y luego imprimiremos cada palabra en una linea 
+   aqui tambien introduciremos la aritmetica de punteros, para trabajar con los dos de una vez y no hacer algo similar para otra funcion solo con punteros
+   ya que es lo mismo en cierto punto. */
+
+#define ALLOCSIZE 1000    // Se definio una constante simbolica, esta será utilizada para definir el tamaño del vector.
+int array[ALLOCSIZE];
+int *puntero = array;
+
+void MetodoConPunterosYArray(void)
+{
+	int c;
+	int i = 0;
+
+	puntero++;
+	while((c = getchar()) != EOF)
+		array[i++] = c;
+/*	if ((array[i] != EOF) && IAMAWORD(array[i])){
+		array[i] = EOF;
+		putchar('\n');
+	}
+*/
+	array[i] = EOF;
+	i = 0;
+	while(*puntero != EOF)
+	{
+		if(IAMAWORD(*puntero) && ESTOYFUERADEUNAPALABRA(array[i++]))
+		{
+			puntero++;
+			i++;
+			putchar('\n');
+		}
+		else if (IAMAWORD(*puntero)){
+			putchar(*puntero);
+			puntero++;
+			i++;
+		}
+	}
+	return ;
 }
