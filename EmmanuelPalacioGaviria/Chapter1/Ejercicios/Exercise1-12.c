@@ -17,12 +17,17 @@
 
 // Aqui iran los prototipos de las funciones
 void MetodoConMacros(void);
+void MetodoDelLibro(void);
+
+
 
 int main(void)
 {
         printf("Forma 2, el ejercicio que hice con macros\n");
 	MetodoConMacros();
         printf("Forma 1, funcion Metodologia del libro\n");
+	MetodoDelLibro();
+	return (0);
 }
 // Utilice estas dos macros, para no ecribir todo estas condiciones en la sentencia del if.
 
@@ -50,25 +55,33 @@ void MetodoConMacros(void)     // Se definio una funcion que no retorna ni recin
 	return ;
 }
 
-#define IN  0
-#define OUT 1
+//  Se definieron dos constante simbolicas.
 
-void MetodoDelLibro(void)
+#define OUT  0             // Verificamos que getchar no esta dentro de una palabra
+#define IN   1             // Getchar esta dentro de una palabra
+
+void MetodoDelLibro(void)      // Se definio una funcion en donde el parametro de void y su retorno igual
 {
-	int c;
-	int state;
+	int c;                 // Almacenara el caracter que le entregue getchar
+	int state;             // Verificamos el estado de getchar.
 
-	state = OUT;
+	state = OUT;           // Al inicio getchar no esta dentro de una palabra, ya que esta esperando una secuencia de caracteres que son enviados desde el teclado
 	while ((c = getchar()) != EOF)
 	{
-		if (ESTOYFUERADEUNAPALABRA(c))
-		{
+		if (ESTOYFUERADEUNAPALABRA(c))     // Mientras la variable c sea igual a un espacio en blanco, tabulador o nueva linea no hara nada
+		{                                  /* Esto es importante por que con esta condicion nos aseguramos que podemos escribir esto : "   HOLA MUNDO  " y 
+						      el putchar del else no imprimira los espacio ni nuevas lineas ni tabuladores, SOLO IMPRIMIRA CARACTERES VISIBLES */
+			if(state == IN)            /* Aqui esta la magia del programa, ya que con esta condicion solo imprimiremos saltos de lineas fin de palabra. */
+				putchar('\n');
 			state = OUT;
 		}
 		else if(state == OUT)
 		{
 			state = IN;
-
+			putchar(c);              /* Este putchar es necesario aqui ta que sin este no imprimiriamos la primera letra de una palabra*/
 		}
+		else
+			putchar(c);              /* Con este otro putchar imprimiremos el resto de las palabras */
 	}
+	return ;                    // Eso es optativo, no retornara nada o retornada basura si la funcion retorna algo diferente a void (creo).
 }
