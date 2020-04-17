@@ -1,10 +1,11 @@
 /**
- *
- *
- *
- *
- *
- *
+ *    *****************************************************************************************************************************
+ *    * Let's write a power function(m ,n) to raise an integer m to a positive integer n.                                         *
+ *    *                                                                                                                           *
+ *    *            Progam Structure                                                                                               *
+ *    *            While(the exponent is greater that or equal to one)                                                            *
+ *    *                  A mathematical operation is performed to save the base result                                            *
+ *    *****************************************************************************************************************************
  */
 
 #include <stdio.h>
