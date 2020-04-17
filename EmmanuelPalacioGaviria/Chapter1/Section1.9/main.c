@@ -1,3 +1,14 @@
+/**
+ *   Note: Solution of the book programming in C of k&D
+ *   *******************************************************
+ *   *             Program Structure                       *
+ *   *             While (there's another line)            *
+ *   *                    (save it)                        *
+ *   *                    (save its lenght)                *
+ *   *             print longest line                      *
+ *   *******************************************************
+ */
+
 #include <stdio.h>
 
 #define MAXLINE 1000     /* Maximun input line length*/
