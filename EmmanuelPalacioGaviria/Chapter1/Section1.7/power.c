@@ -48,7 +48,7 @@ int powerM(m, n)    // Another wey to define a funcion.
 
 	// Another way to use the for function
 
-	for(Base = m; --n > 0;)
+	for(Base = m; --n;)
 		Base = Base * m;
 	return (Base);    // Return the value of the Base, that is, the result we need.
 }
