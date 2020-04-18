@@ -13,9 +13,10 @@
 
 #include <stdio.h>
 
-// Se definen una contante simbólica que se utiliza a lo largo del programa.
+// Se definen dos contantes simbólicas que se utiliza a lo largo del programa.
 
-#define MAXLINE 1000            // Número máximo de caracteres.
+#define MAXLINE 1000                  // Número máximo de caracteres.
+#define NUMBERMAXLINE 2               // Este numero de relacion con el numero de caracteres de reserva que podemos crear.
 
 // Se declaran dos funciones importantes, getlinee y copy.
 // Comúnmente llamdas funciones prototipo.
@@ -23,58 +24,89 @@
    es decir que tipo de argumentos recibirá dichas funciones y que tipo de dato retornará. */
 // Nota: Aun no hemos definidos las funciones.
 
-int getlinee(char S[], int MaxLine);       /* Se le dice al compilador que getline recibe dos argumentos el primero tipo char y el segunto tipo int y
-					      retorna un int.  */
-void copy(char To[], char From []);        // Declaramos una funcion llamada copy, que recibe dos argumentos tipo char y no retorna ningun valor.
+int getlinee(char S[],char T[], int MaxLine);     /* Se le dice al compilador que getline recibe dos argumentos el primero tipo char y el segunto tipo int y
+						     retorna un int.  */
+void copy(char To[], char From [], int N);        // Declaramos una funcion llamada copy, que recibe dos argumentos tipo char y no retorna ningun valor.
 
-int main(void)   // Se define una declara y se define una funcion llamda main.
+// Se declaran dos variables externar de tipo int, recordemos que estas ya estan previamente inicializadas.
+
+int count;
+int count1;
+
+int main(void)
 {
-	// Se declaran 4 varaibles tipo int y se definen dos (los vectores).
+// Se declaran 4 varaibles tipo int y se definen dos (los vectores).
 
-	int LenGetline;                // Guardará el número de caracteres almancenado en el vector StoredLine.
-	int MaxLength;                 // Guardará el maximo número de caracteres que se almacene en StoredLine, es decir el máximo longitud de una línea vista hasta ahora
-	char StoredLine[MAXLINE];       // Almacenará los caracteres proporcionados por la función getline.
-	char StoredLongesht[MAXLINE];   // Almacenará la línea mas larga vista por el momento.
+	int LenGetline;               // Guardará el número de caracteres almancenado en el vector StoredLine.
+	int MaxLength;                // Guardará el maximo número de caracteres que se almacene en StoredLine, es decir el máximo longitud de una línea vista hasta ahora
+	char StoredLine[MAXLINE + 1];   // Almacenará los caracteres proporcionados por la función getline.
+	char StoredLongesht[MAXLINE];  // Almacenará la línea mas larga vista por el momento.
+	char StoredReserver[MAXLINE];  // Éste vector almacenará los caracteres que se rebacen en el segundo vector.
+	char ReserverLongesht[MAXLINE];   // Almacenara la linea ma larga vista por el momento por el segundo vector.
 
 	// Inicializamos la variables MaxLength en cero ya que ésta al inicio no aun no se ha escrito ninguna palabra por el momento.
 
 	MaxLength = 0;
-	while((LenGetline = getlinee(StoredLine, MAXLINE)) > 0)
+	while((LenGetline = getlinee(StoredLine, StoredReserver,(NUMBERMAXLINE)*MAXLINE)) > 0)
+	{
 		if (LenGetline > MaxLength){
 			MaxLength = LenGetline;
-			copy(StoredLongesht, StoredLine);    // En realidad no se esta psando una copia, ni los valores de StoredLine, lo que se pasa 
-                                                             // realmente a la función es un apuntador a esos vectores, se vera en el capítulo 5
+			copy(StoredLongesht, StoredLine, count);  // En realidad no se esta psando una copia, ni los valores de StoredLine, lo que se pasa 
+			                                          // realmente a la función es un apuntador a esos vectores, se vera en el capítulo 5
+			if (*StoredReserver)                      // Si existe un elemento en SotredReserver entonces hará lo mismo que hace el copy anterior
+				copy(ReserverLongesht, StoredReserver, count1);
 		}
-	// Ésta condicion es fundamental con éste verificamos por lo menos que un usuario escribío un caracteres, ya sea que fuese un salto de linea.
+	}
 
-	if (MaxLength > 0)
+// Ésta condicion es fundamental con éste verificamos por lo menos que un usuario escribío un caracteres, ya sea que fuese un salto de linea.
+
+	if (MaxLength > 0){
+		printf("Maxima linea escrita:\n");
 		printf("%s", StoredLongesht);
+	}
+	if (MaxLength >= MAXLINE)
+		printf("%s", ReserverLongesht);
+	if (MaxLength >= MAXLINE){
+		printf("Maxima longitud que hubiera imprimido:\n%s\n", StoredLongesht);
+		printf("Maxima longitud de la cadena que se escribio: %d\n", MaxLength);
+	}
 
 // Nota: return es simplemente una sentencia, no una funcion aunque parezce ya que podemos escribir return 0; he igualmente va a complar
+
 	return(0);
 }
 
 // Ésta función almacena caracteres al array StoredLine
-int getlinee(char s[], int lim)       // Se difinio la función getline, se le almacenamos contendio a la memoria.
+int getlinee(char StoredFase1[], char StoredFase2[],int lim)   // Se difinio la función getline, se le almacenamos contendio a la memoria.
 {
-	int c;        // Guardará el siguiente caracter retornado por gatchar.
-	int i;        // Con esta variable tipo int recorrerá el array
+	int c;          // Guardará el siguiente caracter retornado por gatchar.
+	int i;           // Con esta variable tipo int recorrerá el array
 
-	for(i = 0;(i < (lim - 1)) && ((c = getchar()) != EOF) && (c != '\n'); i++)
-		s[i] = c;                                                             // En esta sentencia llenamos el array, con el caracter almacenado en c.
+	for(i = 0, count = 0, count1 = 0;(i < (lim - 1)) && ((c = getchar()) != EOF) && (c != '\n'); i++)
+	{
+		if(count < (lim/NUMBERMAXLINE))
+			StoredFase1[count++] = c;
+		else
+			StoredFase2[count1] = c, count1++;
+	}
 
-	// Esta sentencia es importante, ya que analiza si c es un salto de linea para poder ingresarlo en el array, ya que el for no lo hace-
-	if (c == '\n')
-		s[i++] = c;
-	s[i] = '\0';            // Cuarquier sting, tiene que terner un terminador y el terminador de un string es el caracter '\0'.
-	return(i);              // Retorna la cantidad de caracteres ingresados al array, incluido el termandor.
+	if(count)
+		StoredFase1[count]  ='\0';
+	if ((c == '\n') && ((count) < ((lim/NUMBERMAXLINE) - 1)))
+		StoredFase1[count++] = c, StoredFase1[count] = '\0';
+	else if ((c == '\n') && ((i + count) >= (lim/NUMBERMAXLINE)))
+		StoredFase2[count1++] = c, StoredFase2[count1] = '\0';
+	if ((c != '\n') && (count < ((lim/NUMBERMAXLINE) - 1)))
+		StoredFase1[count] = '\0';
+	else if ((c != '\n') &&  ((i + count) >= (lim/NUMBERMAXLINE)))
+		StoredFase2[count1] = '\0';
+	return (count1 + count);
 }
 
 // Ésta funcion copia el contenido del array StoredLine  al array StoredLongesht
-void copy(char to[], char from[])      // Se definió una funcion llamda copy.
+void copy(char to[], char from[], int count)    // Se definió una funcion llamda copy.
 {
-// Nota los parámetros de la funcicón aunque esta escrito como un array, en realdiad es un puntero o apuntador y almacenan la primera celda del array
-	while(*to++ = *from++)        // Ésta condición copia todo el contenido incluyendo el terminador a lo que apunta el punter to, que en este caso es 
-		;                     // El vector StoredLongesht. el cual para poder imprimirlo con el formato %s en la función printf (que es fundamental)
-                                      // INCLUIT EL TERMNADOR.
+	int inicio = 0;
+	while((inicio <= count) && (to[inicio] = from[inicio]))   // Esta condicion incluira el terminador nulo para poder que se imprima en el priintf
+		inicio++;
 }
