@@ -1,77 +1,90 @@
-* Vertical Histogram of words in a Sentence */
+/* Exercise 1-16 */
 
-#include<stdio.h>
-#define MAXWL 20  /* Maximum length of a word */
-#define MAXNO 25 /* Maximum No of words in a sentence */
+#include <stdio.h>
+
+#define MAXLINE 3
+
+int getlinee(char s[], int lim);
+void copy(char to[], char from[]);
 
 int main(void)
 {
-	int word[MAXNO];
-	int i,c,j,nc,nw;
-
-	for(i=0;i<MAXNO;++i)
-		word[i]=0;
-
-	nc = nw = 0;
-
-	while( (c=getchar()) != EOF)
+	char line[MAXLINE];
+	char longest[MAXLINE];
+	char temp[MAXLINE];
+	int len, max, prevmax, getmore;
+    
+	max = prevmax = getmore = 0;
+	while((len = getlinee(line, MAXLINE)) > 0)
 	{
-		++nc;
-		if( c ==' ' || c =='\n' || c =='\t')
+		if(line[len - 1] != '\n')
 		{
-			word[nw] = nc -1; /* -1 for excluding the space in the word length */
-			++nw;
-			nc = 0; /* resetting the word-length for the next word */
+			if(getmore == 0)
+				copy(temp, line);
+			prevmax += len;
+			if(max < prevmax)
+				max = prevmax;
+			getmore = 1;
 		}
-  
-	}
-
-	for( i = MAXWL; i >= 1; --i)
-	{
-		for(j=0;j <= nw;++j)
+		else
 		{
-		if( i <= word[j])
-			putchar('*');
-		else  
-			putchar(' ');
+			if(getmore == 1)
+			{
+				if(max < prevmax + len)
+				{
+					max = prevmax + len;
+					copy(longest, temp);
+					longest[MAXLINE - 2] = '\n';
+				}
+				getmore = 0;
+			}
+            
+			else if(max < len)
+			{
+				max = len;
+				copy(longest, line);
+			}
+			prevmax = 0;
+		}
 	}
-		putchar('\n');
+	if(max > 0)
+	{
+		printf("%s", longest);
+		printf("len = %d\n", max);
 	}
 
 	return 0;
-	}
-#include <stdio.h>
-void printHV(int *s)
-{
-	int i = 0;
-	int *temp = s;
-	int *temp2;
-	temp2 = s + 3;
-
-	for( ; *temp2; )
-	{
-		if(s[i] == *temp2)
-			putchar('*'), s++;
-		if(!(s[i] - *temp2))
-			putchar('*'), s++;
-		if (s[i] > *temp2)
-			putchar('*'), s++;
-		else
-			putchar('_'), s++;
-		if(s[i] == 3456 || s[i] == 3444)
-		{
-			putchar('\n');
-			s = temp;
-			*temp2 -= 1;
-			i = 0;
-		}
-	}
 }
 
-int main() {
+int getlinee(char s[], int lim)
+{
+	int c, i;
 
+	for(i = 0;
+	    i < lim - 1 && ((c = getchar()) != EOF && c != '\n');
+	    ++i)
+		s[i] = c;
 
-	int s[] ={1,6,2,6,5,1, 3456, 3444};
-	printHV(s);
-	return 0;
+	if(c == '\n')
+	{
+		s[i] = c;
+		++i;
+	}
+	else if(c == EOF && i > 0)
+	{
+		/* gotta do something about no newline preceding EOF */
+		s[i] = '\n'; 
+		++i;
+	}
+	s[i] = '\0';
+	return i;
+}
+
+void copy(char to[], char from[])
+{
+	int i;
+
+	i = 0;
+	while((to[i] = from[i]) != '\0')
+		++i;
 }

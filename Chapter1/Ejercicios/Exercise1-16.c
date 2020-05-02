@@ -1,6 +1,19 @@
+/**
+ *     ***********************************************************************************************************
+ *     * Programming in C.                                                                                       *
+ *     *      Exercise 1-16. Revise the main routine of the longest-line program so it will correctly print the  *
+ *     *      length of arbitrary long input lines, and as much as possible of the text.                         *
+ *     *                                                                                                         *
+ *     * Ejercicio Resuelto, solo modificando el Main un poco, tambien renombramos la variables max utilizamos   *
+ *     * Por el ejercicio original al nombre NumberLessMaxile aunque no es el mejor nombre, pero vamos           *
+ *     * En aprendizaje para un codigo mas limpio.                                                               *
+ *     *                                                                                                         *
+ *     ***********************************************************************************************************
+ */
+
 #include <stdio.h>
 
-#define MAXLINE 3                           /* maximum input line length */
+#define MAXLINE 5                           /* maximum input line length */
 
 int getlinee(char line[], int maxline);
 void copy(char to[], char from[]);
@@ -24,15 +37,16 @@ main()
 		else if (AccountantNumberBiggerMaxline)
 			AccountantNumberBiggerMaxline += len;
 
-/* Cuando getchar encuentra el salto de linea, inicializamos la variable AccountatNumber... para su proximo conteo y guardamos el numero mas garnde de AccountantNumber... */
-
-		if ((AccountantNumberBiggerMaxline > StoredNumberBiggerMaxline) && (line[len - 1] == '\n'))
-			StoredNumberBiggerMaxline = AccountantNumberBiggerMaxline, AccountantNumberBiggerMaxline = 0;
-
 		if (len > NumberLessMaxline) {
 			NumberLessMaxline = len;
 			copy(longest, line);
 		}
+/* Algo muy sutil es que esta condicion tiene que despues de la condicion if (len > NumberLessMaxline) */
+/* Cuando getchar encuentra el salto de linea, inicializamos la variable AccountatNumber... para su proximo conteo y guardamos el numero mas grande de AccountantNumber...
+   Tambien inicializamos la variables NumberLessMaxline ¿saben por que?  */
+
+                if ((AccountantNumberBiggerMaxline > StoredNumberBiggerMaxline) && (line[len - 1] == '\n'))
+                        StoredNumberBiggerMaxline = AccountantNumberBiggerMaxline, AccountantNumberBiggerMaxline = NumberLessMaxline = 0;
 	}
 	if (StoredNumberBiggerMaxline > 0)
 		printf("%s\nLongitud de la linea mas larga copiada: %d\n", longest, StoredNumberBiggerMaxline);
