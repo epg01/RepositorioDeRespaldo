@@ -40,4 +40,4 @@ Authors ✒️
 
 Gratitude 🎁 
 
-Totalmente agradecido con Brian Kernighan y Dennis Ritchie por haber creado un libro tan genial y magnifico como lo es el libro de Física volumen 1 Mecánica Radiación y Calor Richard Feynman. libros que valen la pena leer y en esforzarse en entender, aunque me falta mucho por recorrer. 
+Totalmente agradecido con Brian Kernighan y Dennis Ritchie por haber creado un libro tan genial y magnifico como lo es el libro de Física volumen 1 Mecánica Radiación y Calor Richard Feynman. libros que valen la pena leer y en esforzarse en entender, aunque me falta mucho por recorrer. :yellow_heart:
