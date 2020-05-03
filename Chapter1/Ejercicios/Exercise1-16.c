@@ -38,6 +38,7 @@ int main (void) // Sé definio una función y estoy seguro que también se decla
 	int MaximumLineSeeSoFar;
 	int AccountantOverflowNUMBERMAXIMUMCHARACTERES;
 	int StoredAccountant;
+	char TemporaryCharacterStorage[NUMBERMAXIMUMCHARACTERES];
 
 	StoredAccountant = AccountantOverflowNUMBERMAXIMUMCHARACTERES = MaximumLineSeeSoFar = 0;
 	while ((SizeLineCurrent = getlinee(StoredCharacter, NUMBERMAXIMUMCHARACTERES)))
@@ -52,10 +53,19 @@ int main (void) // Sé definio una función y estoy seguro que también se decla
 		else if ((StoredCharacter[SizeLineCurrent - 1] == '\n') && (AccountantOverflowNUMBERMAXIMUMCHARACTERES))
 			AccountantOverflowNUMBERMAXIMUMCHARACTERES += SizeLineCurrent;
 
+// Tiene que ser mayor igual las dos últimas variables por si no hay desbordamiento, copiar cantidad de caracteres menores a dichos desbordamientos.
+
 		if ((SizeLineCurrent > MaximumLineSeeSoFar) && (AccountantOverflowNUMBERMAXIMUMCHARACTERES >= StoredAccountant)){
 			MaximumLineSeeSoFar = SizeLineCurrent;
 			copy(LargestLineSoSeeFar, StoredCharacter);
 		}
+
+
+		if ((AccountantOverflowNUMBERMAXIMUMCHARACTERES <= SizeLineCurrent)  && (MaximumLineSeeSoFar <= SizeLineCurrent))
+			copy(TemporaryCharacterStorage, StoredCharacter);
+
+                if ((StoredAccountant > 0)  && (AccountantOverflowNUMBERMAXIMUMCHARACTERES >= StoredAccountant))
+                        copy(LargestLineSoSeeFar, TemporaryCharacterStorage);
 
 /* La condición almacena los caracteres contados hasta ahora (la máxima cantidad). */
 
@@ -63,6 +73,7 @@ int main (void) // Sé definio una función y estoy seguro que también se decla
 			StoredAccountant = AccountantOverflowNUMBERMAXIMUMCHARACTERES;
 
 /* Cuando se llega al salto de línea, carácter nuevo línea, inicializamos las variables a sus valores iniciales para su nuevo y seguro conteo. */
+
 		if (AccountantOverflowNUMBERMAXIMUMCHARACTERES && (!(StoredCharacter[SizeLineCurrent - 1] != '\n')))
 			AccountantOverflowNUMBERMAXIMUMCHARACTERES = MaximumLineSeeSoFar = 0;
 	}
