@@ -60,6 +60,7 @@ int main (void) // Sé definio una función y estoy seguro que también se decla
 			copy(LargestLineSoSeeFar, StoredCharacter);
 		}
 
+// Con estos dos if solucione los problemas que tenia con la salida del programa
 
 		if ((AccountantOverflowNUMBERMAXIMUMCHARACTERES <= SizeLineCurrent)  && (MaximumLineSeeSoFar <= SizeLineCurrent))
 			copy(TemporaryCharacterStorage, StoredCharacter);
