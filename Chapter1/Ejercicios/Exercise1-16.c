@@ -39,7 +39,7 @@ int main (void) // Sé definio una función y estoy seguro que también se decla
 	int AccountantOverflowNUMBERMAXIMUMCHARACTERES;
 	int StoredAccountant;
 
-	 AccountantOverflowNUMBERMAXIMUMCHARACTERES = MaximumLineSeeSoFar = 0;
+	StoredAccountant = AccountantOverflowNUMBERMAXIMUMCHARACTERES = MaximumLineSeeSoFar = 0;
 	while ((SizeLineCurrent = getlinee(StoredCharacter, NUMBERMAXIMUMCHARACTERES)))
 	{
 
@@ -49,7 +49,7 @@ int main (void) // Sé definio una función y estoy seguro que también se decla
 
 		if (SizeLineCurrent == (NUMBERMAXIMUMCHARACTERES - 1) && !(StoredCharacter[SizeLineCurrent - 1] == '\n'))
 			AccountantOverflowNUMBERMAXIMUMCHARACTERES += SizeLineCurrent;
-		else if (StoredCharacter[SizeLineCurrent - 1] == '\n')
+		else if ((StoredCharacter[SizeLineCurrent - 1] == '\n') && (AccountantOverflowNUMBERMAXIMUMCHARACTERES))
 			AccountantOverflowNUMBERMAXIMUMCHARACTERES += SizeLineCurrent;
 
 		if ((SizeLineCurrent > MaximumLineSeeSoFar) && (AccountantOverflowNUMBERMAXIMUMCHARACTERES >= StoredAccountant)){
@@ -71,7 +71,7 @@ int main (void) // Sé definio una función y estoy seguro que también se decla
 
 	if (StoredAccountant >= NUMBERMAXIMUMCHARACTERES)
 		printf("%s\n!Advertencia hubo un desbordamiento! Longitud de la linea mas larga copiada: %d\n", LargestLineSoSeeFar, StoredAccountant);
-	else if (AccountantOverflowNUMBERMAXIMUMCHARACTERES)
+	else if (MaximumLineSeeSoFar > 0)
 		printf("%s", LargestLineSoSeeFar);
 	return 0;
 }
