@@ -18,7 +18,7 @@
 
 /* Sé define una contante simbolica, ya que es una mala practica enterrar número mágicos*/
 
-#define NUMBERMAXIMUMCHARACTERES 3
+#define NUMBERMAXIMUMCHARACTERES 5
 
 /* Sé declaran dos funciones, ya que especifica el tipo de argumentos que le llegan y el tipo de dato que retornará la función 
    nota: aun no hemos definido la funcion, como se declaran las funciones es optativo en los parámetros asignar un nombre de variable al tipo de dato, pero esto
@@ -45,14 +45,14 @@ int main (void) // Sé definio una función y estoy seguro que también se decla
 
 /* Esta condición es importante, ya que verifica si hay un desbordamiento, es decir si aún hay caracteres que hacen parte de una línea y no han sido almacenamos en
    su totalidad por el vector, ya que tiene un tamaña fijo (finito). Lo importante de esta condición if-else-if, es que incluimos en el conteo el final de línea,
-   ya que por definición es un carácter visible (es decir se cuenta) ya que el carácter terminador \0 no se incluye en el conteo.*/
+   ya que por definición es un carácter visible ("es decir se cuenta") ya que el carácter terminador \0 no se incluye en el conteo.*/
 
 		if (SizeLineCurrent == (NUMBERMAXIMUMCHARACTERES - 1) && !(StoredCharacter[SizeLineCurrent - 1] == '\n'))
 			AccountantOverflowNUMBERMAXIMUMCHARACTERES += SizeLineCurrent;
 		else if (StoredCharacter[SizeLineCurrent - 1] == '\n')
 			AccountantOverflowNUMBERMAXIMUMCHARACTERES += SizeLineCurrent;
 
-		if ((SizeLineCurrent > MaximumLineSeeSoFar) && (AccountantOverflowNUMBERMAXIMUMCHARACTERES > StoredAccountant)){
+		if ((SizeLineCurrent > MaximumLineSeeSoFar) && (AccountantOverflowNUMBERMAXIMUMCHARACTERES >= StoredAccountant)){
 			MaximumLineSeeSoFar = SizeLineCurrent;
 			copy(LargestLineSoSeeFar, StoredCharacter);
 		}
@@ -69,9 +69,9 @@ int main (void) // Sé definio una función y estoy seguro que también se decla
 
 /* La condición if-else verifica si hubo un desbordamiento he imprime la línea más larga que el array pudo almacenar. */
 
-	if (StoredAccountant > 0)
-		printf("%s\nLongitud de la linea mas larga copiada: %d\n", LargestLineSoSeeFar, StoredAccountant);
-	else
+	if (StoredAccountant >= NUMBERMAXIMUMCHARACTERES)
+		printf("%s\n!Advertencia hubo un desbordamiento! Longitud de la linea mas larga copiada: %d\n", LargestLineSoSeeFar, StoredAccountant);
+	else if (AccountantOverflowNUMBERMAXIMUMCHARACTERES)
 		printf("%s", LargestLineSoSeeFar);
 	return 0;
 }
