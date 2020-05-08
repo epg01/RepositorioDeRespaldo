@@ -21,7 +21,7 @@
 
 #define NUMBERMAXIMUMCHARACTERES   1000
 
-/* Sé declaran una funcion, ya que especifica el tipo de argumentos que le llegan y el tipo de dato que retornará la función 
+/* Sé declaran dos funciones, ya que especifica el tipo de argumentos que le llegan y el tipo de dato que retornará la función 
    nota: aun no hemos definido la funcion, como se declaran las funciones es optativo en los parámetros asignar un nombre de variable al tipo de dato, pero esto
    es una mala practica ya que da poca documentación o informacion al programa. */
 
@@ -29,22 +29,22 @@ int getlinee(char StoredCharacter[], int SizeArray);    /* En donde como hemos d
 							     definiendo a la función si no declarandola, inclusive tambien se pude hacer escrito
 							     getline(char [], int) si no se coloca el tipo de dato el compilador asumirá que será de tipo int*/
 
-int RemoveCharactersFromSpacesAtEndOFArray(char StoredCharacter[]);
+void RemoveCharactersFromSpacesAtEndOFArray(char StoredCharacter[]);  // Función para remover los ultimos espacios en blanco.
 
 // Nota: Las funciones que se declaran, comunmente arriva de la funcion principal (main), se denomina comunmnete función prototipo (function prototype)
 
 int main (void) // Sé definio una función y estoy seguro que también se declara.
 {
-	int SizeLineCurrent, S;
+	int SizeLineCurrent;
 	char StoredCharacter[NUMBERMAXIMUMCHARACTERES];
 
 	printf("No tuvimos en cuenta el desbordamiento, ejercicio hecho en el problema Exercise1-16\n");
 	SizeLineCurrent = 0;
 	while ((SizeLineCurrent = getlinee(StoredCharacter, NUMBERMAXIMUMCHARACTERES)) > 0)
 	{
-		S = RemoveCharactersFromSpacesAtEndOFArray(StoredCharacter);
+		RemoveCharactersFromSpacesAtEndOFArray(StoredCharacter);
 
-		if(S)
+		if(!(*StoredCharacter == '\n'))
 			printf("%s", StoredCharacter);
 	}
 	return(0);
@@ -70,9 +70,11 @@ getlinee(char StoredCharacter[], int SizeArray)
 #define IAMWORD(x) (((x) != ('\n')) && ((x) != ('\t')) && ((x) != (' ')))
 #define SPACECHARACTER(y) (((y) == (' ')) || ((y) == ('\t')))
 
-int RemoveCharactersFromSpacesAtEndOFArray(char StoredCharacter[])
+void RemoveCharactersFromSpacesAtEndOFArray(char StoredCharacter[])
 {
 	unsigned int AccountantSpace;
+
+	char *ApuntaAlInicioDElArray = StoredCharacter;
 
 	AccountantSpace = 0;
 	while (*StoredCharacter)
@@ -81,11 +83,9 @@ int RemoveCharactersFromSpacesAtEndOFArray(char StoredCharacter[])
 			AccountantSpace = 0;
 		else if (SPACECHARACTER(*StoredCharacter))
 			AccountantSpace++;
-		else if (!(*StoredCharacter != '\n')){
+		else if (!(*StoredCharacter != '\n'))
 			*(StoredCharacter - AccountantSpace) = '\n', *(StoredCharacter - AccountantSpace + 1) = '\0';
-			return (1);
 
-		}
 		StoredCharacter++;
 	}
 }
