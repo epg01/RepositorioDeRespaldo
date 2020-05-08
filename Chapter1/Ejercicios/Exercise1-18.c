@@ -20,7 +20,6 @@
 /* Sé define dos contante simbolica, ya que es una mala practica enterrar número mágicos*/
 
 #define NUMBERMAXIMUMCHARACTERES   1000
-#define CHARACTERPRINT             5
 
 /* Sé declaran una funcion, ya que especifica el tipo de argumentos que le llegan y el tipo de dato que retornará la función 
    nota: aun no hemos definido la funcion, como se declaran las funciones es optativo en los parámetros asignar un nombre de variable al tipo de dato, pero esto
@@ -30,20 +29,22 @@ int getlinee(char StoredCharacter[], int SizeArray);    /* En donde como hemos d
 							     definiendo a la función si no declarandola, inclusive tambien se pude hacer escrito
 							     getline(char [], int) si no se coloca el tipo de dato el compilador asumirá que será de tipo int*/
 
+int RemoveCharactersFromSpacesAtEndOFArray(char StoredCharacter[]);
+
 // Nota: Las funciones que se declaran, comunmente arriva de la funcion principal (main), se denomina comunmnete función prototipo (function prototype)
 
 int main (void) // Sé definio una función y estoy seguro que también se declara.
 {
-	int SizeLineCurrent;
+	int SizeLineCurrent, S;
 	char StoredCharacter[NUMBERMAXIMUMCHARACTERES];
 
 	printf("No tuvimos en cuenta el desbordamiento, ejercicio hecho en el problema Exercise1-16\n");
 	SizeLineCurrent = 0;
 	while ((SizeLineCurrent = getlinee(StoredCharacter, NUMBERMAXIMUMCHARACTERES)) > 0)
 	{
-		Señal = RemoveCharactersFromSpacesAtEndOFArray(StoredCharacter);
+		S = RemoveCharactersFromSpacesAtEndOFArray(StoredCharacter);
 
-		if(Señal)
+		if(S)
 			printf("%s", StoredCharacter);
 	}
 	return(0);
@@ -66,46 +67,25 @@ getlinee(char StoredCharacter[], int SizeArray)
 	return(i);
 }
 
-#define DEFAULT -2
-
 #define IAMWORD(x) (((x) != ('\n')) && ((x) != ('\t')) && ((x) != (' ')))
-#define SPACECHARACTER(y) (((y) == ('\n')) || ((y) == ('\t')) || ((y) = (' ')))
+#define SPACECHARACTER(y) (((y) == (' ')) || ((y) == ('\t')))
 
-int RemoveCharactersFromSpacesAtEndOFArray(char StoredCharacter[], int SizeArray)
+int RemoveCharactersFromSpacesAtEndOFArray(char StoredCharacter[])
 {
-	int CharacterBack;
-	unsigned int AccountantLetters, AccountantSpace;
+	unsigned int AccountantSpace;
 
-
-
-	// Esta línea no contiene caracteres visibles.
-
-	if (*StoredCharacter == '\n')
-		return (0);
-
-	else
+	AccountantSpace = 0;
+	while (*StoredCharacter)
 	{
-		AccountantLetters = AccountantSpace = 0;
-		while ((CharacterBack = *StoredCharacter)  && *++StoredCharacter)
-		{
-			if ((SPACECHARACTER(CharacterBack)) && (IAMWORD(*StoredCharacter)))
-			{
-				AccountantSpace++;
-			}
-			else
-			        AccountantLetters;
-
-
+		if (IAMWORD(*StoredCharacter))
+			AccountantSpace = 0;
+		else if (SPACECHARACTER(*StoredCharacter))
+			AccountantSpace++;
+		else if (!(*StoredCharacter != '\n')){
+			*(StoredCharacter - AccountantSpace) = '\n', *(StoredCharacter - AccountantSpace + 1) = '\0';
+			return (1);
 
 		}
+		StoredCharacter++;
 	}
-
-
-
-
-
-
-
-
-
 }
