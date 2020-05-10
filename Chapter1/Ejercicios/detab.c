@@ -1,3 +1,12 @@
+/**
+ *
+ *
+ *
+ *
+ *
+ */
+
+
 #include <stdio.h>
 
 unsigned char StoredCharacterOfTheArray(char StoredCharacter[]);
@@ -25,7 +34,7 @@ int main(void)
 		else if (Accountant == ContantOfCharacterStored)
 			Accountant = 0;
 
-		else if ((StoredCharacter[Accountant] != ' ') && (StoredCharacter[Accountant] != '\n'))
+		else if ((StoredCharacter[Accountant] != ' ') && (StoredCharacter[Accountant] != '\n') && (StoredCharacter[Accountant] != '\t'))
 			putchar(StoredCharacter[Accountant]), Accountant2++, Accountant++;
 		else if (StoredCharacter[Accountant] == ' ')
 			putchar(StoredCharacter[Accountant]), Accountant2 = 0, Accountant++;
