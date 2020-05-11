@@ -82,7 +82,7 @@ unsigned char StoredCharacterOfTheArray(char StoredCharacter[])
 	unsigned char i;
 	int Character;
 
-	for (i = 0; (i < (9 - 1)) && ((Character = getchar()) != EOF) && (Character != '\n'); i++)
+	for (i = 0; (i < (ARRAYSIZE - 1)) && ((Character = getchar()) != EOF) && (Character != '\n'); i++)
 		StoredCharacter[i] = Character;
 	if (Character == EOF)
 		StoredCharacter[i++] = Character;
