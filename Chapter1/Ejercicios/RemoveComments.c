@@ -5,7 +5,7 @@
 
 unsigned char StoredCharacterOfTheArray(char StoredCharacter[]);
 unsigned char RemoveComment(char StoredCharacter[], unsigned char IndexOfArray);
-unsigned char SecondVersion(char StoredCharacter[], unsigned char IndexOfArray);
+unsigned char SecondVersionRemoveComment(char StoredCharacter[], unsigned char IndexOfArray);
 
 #define ARRAYSIZE 170     /* Tamaño del arrray nota: por que se habrá escodigo 170  */
 
@@ -33,16 +33,18 @@ int main(void)
 		else if (i == ContantOfCharacterStored)
 			i = 0;
 
-		/* Condición que me cuenta los caracteres menos los saltos de línea y tabuladores*/
+		// Esta secuenta de else-if me controlan que se elimina y que se imprime.
 
-		else if ((StoredCharacter[i] != '/') && (StoredCharacter[i + 1] != '*') /*&& !(StoredCharacter[i + 1] == '/')*/)
-			putchar(StoredCharacter[i]), i++;
-
-		else //((StoredCharacter[i] == '/') && (StoredCharacter[i + 1] == '*'))
+		// El primero me elimina los comentarios escritos de esta forma /* */
+		else if (!(StoredCharacter[i] != '/') && !(StoredCharacter[i + 1] != '*'))
 			i = RemoveComment(StoredCharacter, i);
-//	        else if ((StoredCharacter[i] == '/') && (StoredCharacter[i + 1] == '/'))
-//			i = SecondVersion(StoredCharacter, i);
 
+		// El segundo me elimina los comentarios de esta forma //
+		else if (!(StoredCharacter[i] != '/') && !(StoredCharacter[i + 1] != '/'))
+			i = SecondVersionRemoveComment(StoredCharacter, i);
+		// Me imprime el resto de la salida, es decir los no comentarios.
+		else
+			putchar(StoredCharacter[i]), i++;
 		if (StoredCharacter[i] == EOF)
 			State = 0;
 
@@ -70,6 +72,8 @@ unsigned char StoredCharacterOfTheArray(char StoredCharacter[])
 	return (i);
 }
 
+// Función que me elimina los comentarios de esta forma /**/
+
 unsigned char RemoveComment(char StoredCharacter[], unsigned char IndexOfArray)
 {
 	char State = 1;
@@ -78,16 +82,18 @@ unsigned char RemoveComment(char StoredCharacter[], unsigned char IndexOfArray)
 	{
 		if (IndexOfArray == ContantOfCharacterStored)
 			ContantOfCharacterStored = StoredCharacterOfTheArray(StoredCharacter), IndexOfArray = 0;
-		if (StoredCharacter[IndexOfArray] == '*' && StoredCharacter[IndexOfArray + 1] == '/')
+		if ((StoredCharacter[IndexOfArray] == '*') && (StoredCharacter[IndexOfArray + 1] == '/'))
 			State = 0;
-		else if (StoredCharacter[IndexOfArray] == EOF || ContantOfCharacterStored == 0)
+		else if ((StoredCharacter[IndexOfArray] == EOF) || (ContantOfCharacterStored == 0))
 			exit(0);
 		IndexOfArray++;
 	}
 	return (IndexOfArray + 1);
 }
 
-unsigned char SecondVersion(char StoredCharacter[], unsigned char IndexOfArray)
+// Función que me elimina los cometarios de esta forma //
+
+unsigned char SecondVersionRemoveComment(char StoredCharacter[], unsigned char IndexOfArray)
 {
         char State = 1;
 
@@ -97,7 +103,7 @@ unsigned char SecondVersion(char StoredCharacter[], unsigned char IndexOfArray)
                         ContantOfCharacterStored = StoredCharacterOfTheArray(StoredCharacter), IndexOfArray = 0;
                 if (StoredCharacter[IndexOfArray] == '\n')
                         State = 0;
-                else if (StoredCharacter[IndexOfArray] == EOF || ContantOfCharacterStored == 0)
+                else if ((StoredCharacter[IndexOfArray] == EOF) || (ContantOfCharacterStored == 0))
                         exit(0);
                 IndexOfArray++;
         }
